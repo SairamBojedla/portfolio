@@ -181,17 +181,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Resume Download Functionality - Fixed
     function downloadResume() {
         // Create a comprehensive resume content
-        const link = document.createElement('a');
-    link.href = 'resume.pdf'; // Path to your existing PDF
-    link.download = 'Bojedla_Sai_Ram_Resume.pdf';
-    
-        link.download = 'Bojedla_Sai_Ram_Resume.txt';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-        
-        showNotification('Resume downloaded successfully!', 'success');
+        const fileUrl = "https://raw.githubusercontent.com/SairamBojedla/portfolio/main/resume.pdf";
+
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "Bojedla_Sai_Ram_Resume.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error("Error downloading the resume:", error);
+        });
     }
 
     // Download button event listeners - Fixed
