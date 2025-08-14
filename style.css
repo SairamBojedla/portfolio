@@ -1183,11 +1183,12 @@ body {
 }
 
 /* Education Section */
+/* Education Section */
 .timeline {
   max-width: 800px;
   margin: 0 auto;
   position: relative;
-  padding: 40px 20px;
+  padding: 0 20px; /* Add padding to prevent edge overlap */
 }
 
 .timeline::before {
@@ -1203,9 +1204,9 @@ body {
 
 .timeline-item {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: var(--space-32);
   position: relative;
-  align-items: center;
+  align-items: center; /* Center align items */
 }
 
 .timeline-item:nth-child(odd) {
@@ -1219,12 +1220,26 @@ body {
   color: var(--color-primary);
   padding: var(--space-8);
   position: relative;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
-/* Remove the dot from timeline-year */
 .timeline-year::after {
-  display: none;
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  top: 50%;
+  right: -50px; /* CHANGED: Moved closer to prevent overlap */
+  transform: translateY(-50%);
+  z-index: 2; /* Ensure dot is above timeline line */
+  border: 2px solid var(--color-surface); /* Add border to make dot more visible */
+}
+
+.timeline-item:nth-child(odd) .timeline-year::after {
+  right: auto;
+  left: -50px; /* CHANGED: Moved closer to prevent overlap */
 }
 
 .timeline-content {
@@ -1233,56 +1248,29 @@ body {
   padding: var(--space-20);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-card-border);
-  margin: 0 var(--space-24);
+  margin: 0 var(--space-40); /* CHANGED: Increased margin to 40px for more space */
   position: relative;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-}
-
-/* Add dot to the content box */
-.timeline-content::before {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  background: var(--color-primary);
-  border-radius: 50%;
-  top: 20px;
-  right: -7px; /* Half of dot width to center on border */
-  z-index: 10;
-  border: 3px solid var(--color-surface);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Dot position for odd items (left side) */
-.timeline-item:nth-child(odd) .timeline-content::before {
-  right: auto;
-  left: -7px; /* Half of dot width to center on border */
+  z-index: 1; /* Ensure content is below dots */
+  min-width: 0; /* Allow content to shrink if needed */
 }
 
 .timeline-content h3 {
   color: var(--color-text);
   margin-bottom: var(--space-8);
-  font-size: 1.25rem;
-  font-weight: var(--font-weight-bold);
-  padding-right: 30px; /* Add padding to avoid dot overlap */
-}
-
-.timeline-item:nth-child(odd) .timeline-content h3 {
-  padding-right: 0;
-  padding-left: 30px; /* Add padding for odd items */
+  word-wrap: break-word; /* Prevent long text overflow */
 }
 
 .timeline-content h4 {
   color: var(--color-primary);
   margin-bottom: var(--space-8);
   font-weight: var(--font-weight-medium);
-  font-size: 1.1rem;
+  word-wrap: break-word; /* Prevent long text overflow */
 }
 
 .timeline-content p {
   color: var(--color-text-secondary);
   margin-bottom: var(--space-8);
-  line-height: 1.6;
+  word-wrap: break-word; /* Prevent long text overflow */
 }
 
 .grade {
@@ -1292,86 +1280,25 @@ body {
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  display: inline-block;
-  margin-top: 8px;
+  display: inline-block; /* Ensure proper spacing */
 }
 
-/* Alternative: Dot inside the box at top-left corner */
-.timeline-content-alt::before {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: var(--color-primary);
-  border-radius: 50%;
-  top: 15px;
-  left: 15px;
-  z-index: 1;
-}
-
-/* Mobile responsive */
+/* Mobile responsive fixes */
 @media (max-width: 768px) {
   .timeline {
-    padding: 20px 10px;
-  }
-  
-  .timeline::before {
-    left: 30px;
-    transform: none;
-  }
-  
-  .timeline-item {
-    flex-direction: column !important;
-    align-items: flex-start;
-    margin-bottom: 30px;
-  }
-  
-  .timeline-item:nth-child(odd) {
-    flex-direction: column !important;
-  }
-  
-  .timeline-year {
-    width: 100%;
-    text-align: left;
-    padding-left: 50px;
-    margin-bottom: 10px;
+    padding: 0 10px;
   }
   
   .timeline-content {
-    width: 100%;
-    margin: 0 0 0 50px !important;
+    margin: 0 var(--space-32); /* CHANGED: Increased for mobile too */
   }
   
-  .timeline-content::before {
-    left: -25px !important;
-    right: auto !important;
-    top: 20px;
+  .timeline-year::after {
+    right: -45px; /* CHANGED: Adjusted for mobile */
   }
   
-  .timeline-content h3 {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .timeline::before {
-    left: 25px;
-  }
-  
-  .timeline-year {
-    padding-left: 40px;
-  }
-  
-  .timeline-content {
-    margin-left: 40px !important;
-    padding: 16px;
-  }
-  
-  .timeline-content::before {
-    left: -20px !important;
-    width: 10px;
-    height: 10px;
+  .timeline-item:nth-child(odd) .timeline-year::after {
+    left: -45px; /* CHANGED: Adjusted for mobile */
   }
 }
 
