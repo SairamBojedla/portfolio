@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
     link.href = 'resume.pdf'; // Path to your existing PDF
     link.download = 'Bojedla_Sai_Ram_Resume.pdf';
     
-        link.download = 'Bojedla_Sai_Ram_Resume.txt';
+        //link.download = 'Bojedla_Sai_Ram_Resume.txt';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
