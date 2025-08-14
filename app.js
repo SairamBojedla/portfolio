@@ -252,35 +252,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Animated Counter
-    function animateCounter(element, target, duration = 2000) {
-        let start = 0;
-        const startTime = performance.now();
-        
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            
-            // Easing function
-            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-            const current = start + (target - start) * easeOutQuart;
-            
-            // Handle decimal values
-            if (target % 1 !== 0) {
-                element.textContent = current.toFixed(2);
-            } else {
-                element.textContent = Math.floor(current);
-            }
-            
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                element.textContent = target;
-            }
+  function animateCounter(element, target, duration = 2000) {
+    let start = 0;
+    const startTime = performance.now();
+    const needsPlus = element.getAttribute('data-plus') === 'true';
+
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = start + (target - start) * easeOutQuart;
+
+        if (target % 1 !== 0) {
+            element.textContent = current.toFixed(2);
+        } else {
+            element.textContent = Math.floor(current);
         }
-        
-        requestAnimationFrame(update);
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = target + (needsPlus ? '+' : '');
+        }
     }
 
+    requestAnimationFrame(update);
+}
     // Intersection Observer for animations
     const observerOptions = {
         threshold: 0.1,
