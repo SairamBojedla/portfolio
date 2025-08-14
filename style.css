@@ -1183,11 +1183,12 @@ body {
 }
 
 /* Education Section */
+/* Education Section */
 .timeline {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   position: relative;
-  padding: 0 20px; /* Add padding to prevent edge overlap */
+  padding: 40px 0;
 }
 
 .timeline::before {
@@ -1196,16 +1197,16 @@ body {
   left: 50%;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 3px;
   background: var(--color-primary);
   transform: translateX(-50%);
 }
 
 .timeline-item {
   display: flex;
-  margin-bottom: var(--space-32);
+  margin-bottom: 40px;
   position: relative;
-  align-items: center; /* Center align items */
+  align-items: flex-start;
 }
 
 .timeline-item:nth-child(odd) {
@@ -1213,93 +1214,149 @@ body {
 }
 
 .timeline-year {
-  width: 120px;
+  width: 140px;
   text-align: center;
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   padding: var(--space-8);
   position: relative;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
 }
 
+/* Dot positioning for normal items (left side) */
 .timeline-year::after {
   content: '';
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   background: var(--color-primary);
   border-radius: 50%;
   top: 50%;
-  right: -62px; /* Moved further from content */
+  left: calc(100% + 20px); /* Position dot 20px to the right of year */
   transform: translateY(-50%);
-  z-index: 2; /* Ensure dot is above timeline line */
-  border: 2px solid var(--color-surface); /* Add border to make dot more visible */
+  z-index: 10;
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+/* Dot positioning for odd items (right side) */
 .timeline-item:nth-child(odd) .timeline-year::after {
-  right: auto;
-  left: -62px; /* Moved further from content */
+  left: auto;
+  right: calc(100% + 20px); /* Position dot 20px to the left of year */
 }
 
 .timeline-content {
   flex: 1;
   background: var(--color-surface);
-  padding: var(--space-20);
+  padding: 24px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-card-border);
-  margin: 0 var(--space-32); /* Increased margin to give more space */
+  margin-left: 60px; /* Increased margin for normal items */
+  margin-right: 0;
   position: relative;
-  z-index: 1; /* Ensure content is below dots */
-  min-width: 0; /* Allow content to shrink if needed */
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  min-width: 300px;
+}
+
+/* Content positioning for odd items */
+.timeline-item:nth-child(odd) .timeline-content {
+  margin-left: 0;
+  margin-right: 60px; /* Increased margin for odd items */
 }
 
 .timeline-content h3 {
   color: var(--color-text);
   margin-bottom: var(--space-8);
-  word-wrap: break-word; /* Prevent long text overflow */
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
 
 .timeline-content h4 {
   color: var(--color-primary);
   margin-bottom: var(--space-8);
   font-weight: var(--font-weight-medium);
-  word-wrap: break-word; /* Prevent long text overflow */
+  font-size: 1.1rem;
 }
 
 .timeline-content p {
   color: var(--color-text-secondary);
   margin-bottom: var(--space-8);
-  word-wrap: break-word; /* Prevent long text overflow */
+  line-height: 1.6;
 }
 
 .grade {
   background: var(--color-bg-3);
   color: var(--color-success);
-  padding: var(--space-4) var(--space-8);
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  display: inline-block; /* Ensure proper spacing */
+  display: inline-block;
+  margin-top: 8px;
 }
 
-/* Mobile responsive fixes */
+/* Mobile responsive */
 @media (max-width: 768px) {
   .timeline {
-    padding: 0 10px;
+    max-width: 100%;
+    padding: 20px 15px;
   }
   
-  .timeline-content {
-    margin: 0 var(--space-24);
+  .timeline::before {
+    left: 30px;
+    transform: none;
+  }
+  
+  .timeline-item {
+    flex-direction: column !important;
+    margin-bottom: 30px;
+  }
+  
+  .timeline-item:nth-child(odd) {
+    flex-direction: column !important;
+  }
+  
+  .timeline-year {
+    width: 100%;
+    text-align: left;
+    padding-left: 60px;
+    margin-bottom: 15px;
   }
   
   .timeline-year::after {
-    right: -58px;
+    left: 24px !important;
+    right: auto !important;
+    top: 50%;
   }
   
-  .timeline-item:nth-child(odd) .timeline-year::after {
-    left: -58px;
+  .timeline-content {
+    margin-left: 60px !important;
+    margin-right: 0 !important;
+    min-width: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .timeline-content {
+    margin-left: 45px !important;
+    padding: 16px;
+  }
+  
+  .timeline-year {
+    padding-left: 45px;
+  }
+  
+  .timeline-year::after {
+    left: 18px !important;
+    width: 12px;
+    height: 12px;
+  }
+}
+
 
 
 /* Certifications Section */
