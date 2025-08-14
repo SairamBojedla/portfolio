@@ -1223,7 +1223,7 @@ body {
   flex-shrink: 0; /* Prevent shrinking */
 }
 
-.timeline-year::after {
+/*.timeline-year::after {
   content: '';
   position: absolute;
   width: 12px;
@@ -1240,7 +1240,7 @@ body {
 .timeline-item:nth-child(odd) .timeline-year::after {
   right: -30;
   left: 10; /* CHANGED: Moved closer to prevent overlap */
-}
+} */
 
 .timeline-content {
   flex: 1;
