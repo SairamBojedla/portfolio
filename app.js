@@ -253,44 +253,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Animated Counter
     function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const startTime = performance.now();
-    const needsPlus = element.getAttribute('data-plus') === 'true';
-
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Easing
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        const current = start + (target - start) * easeOutQuart;
-
-        if (target % 1 !== 0) {
-            element.textContent = current.toFixed(2);
-        } else {
-            element.textContent = Math.floor(current);
+        let start = 0;
+        const startTime = performance.now();
+        
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const current = start + (target - start) * easeOutQuart;
+            
+            // Handle decimal values
+            if (target % 1 !== 0) {
+                element.textContent = current.toFixed(2);
+            } else {
+                element.textContent = Math.floor(current);
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                element.textContent = target;
+            }
         }
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            element.textContent = target + (needsPlus ? '+' : '');
-        }
+        
+        requestAnimationFrame(update);
     }
 
-    requestAnimationFrame(update);
-}
+    // Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-// Intersection Observer
-const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const target = parseFloat(entry.target.getAttribute('data-target'));
-            animateCounter(entry.target, target);
-            obs.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                
+                // Animate counters
+                if (entry.target.classList.contains('hero')) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        const target = parseFloat(counter.getAttribute('data-target'));
+                        animateCounter(counter, target);
+                    });
+                }
                 
                 // Animate skill bars
                 if (entry.target.classList.contains('skills')) {
