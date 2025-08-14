@@ -1188,7 +1188,7 @@ body {
   max-width: 800px;
   margin: 0 auto;
   position: relative;
-  padding: 0 20px; /* Add padding to prevent edge overlap */
+  padding: 0 20px;
 }
 
 .timeline::before {
@@ -1206,7 +1206,7 @@ body {
   display: flex;
   margin-bottom: var(--space-32);
   position: relative;
-  align-items: center; /* Center align items */
+  align-items: center;
 }
 
 .timeline-item:nth-child(odd) {
@@ -1220,27 +1220,8 @@ body {
   color: var(--color-primary);
   padding: var(--space-8);
   position: relative;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
 }
-
-/*.timeline-year::after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: var(--color-primary);
-  border-radius: 50%;
-  top: 50%;
-  right: -50px; /* CHANGED: Moved closer to prevent overlap */
-  transform: translateY(-50%);
-  z-index: 2; /* Ensure dot is above timeline line */
-  border: 2px solid var(--color-surface); /* Add border to make dot more visible */
-}
-
-.timeline-item:nth-child(odd) .timeline-year::after {
-  right: -30;
-  left: 10; /* CHANGED: Moved closer to prevent overlap */
-} */
 
 .timeline-content {
   flex: 1;
@@ -1248,29 +1229,29 @@ body {
   padding: var(--space-20);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-card-border);
-  margin: 0 var(--space-40); /* CHANGED: Increased margin to 40px for more space */
+  margin: 0 var(--space-40);
   position: relative;
-  z-index: 1; /* Ensure content is below dots */
-  min-width: 0; /* Allow content to shrink if needed */
+  z-index: 1;
+  min-width: 0;
 }
 
 .timeline-content h3 {
   color: var(--color-text);
   margin-bottom: var(--space-8);
-  word-wrap: break-word; /* Prevent long text overflow */
+  word-wrap: break-word;
 }
 
 .timeline-content h4 {
   color: var(--color-primary);
   margin-bottom: var(--space-8);
   font-weight: var(--font-weight-medium);
-  word-wrap: break-word; /* Prevent long text overflow */
+  word-wrap: break-word;
 }
 
 .timeline-content p {
   color: var(--color-text-secondary);
   margin-bottom: var(--space-8);
-  word-wrap: break-word; /* Prevent long text overflow */
+  word-wrap: break-word;
 }
 
 .grade {
@@ -1280,7 +1261,7 @@ body {
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  display: inline-block; /* Ensure proper spacing */
+  display: inline-block;
 }
 
 /* Mobile responsive fixes */
@@ -1290,17 +1271,10 @@ body {
   }
   
   .timeline-content {
-    margin: 0 var(--space-32); /* CHANGED: Increased for mobile too */
+    margin: 0 var(--space-32);
   }
-  
-  /*.timeline-year::after {
-    right: -45px; /* CHANGED: Adjusted for mobile */
-  }*/
-  
- /* .timeline-item:nth-child(odd) .timeline-year::after {
-    left: -45px; /* CHANGED: Adjusted for mobile */
-  }*/
 }
+
 
 
 /* Certifications Section */
