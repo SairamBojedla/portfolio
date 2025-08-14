@@ -280,25 +280,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     requestAnimationFrame(update);
 }
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                
-                // Animate counters
-                if (entry.target.classList.contains('hero')) {
-                    const counters = entry.target.querySelectorAll('.stat-number');
-                    counters.forEach(counter => {
-                        const target = parseFloat(counter.getAttribute('data-target'));
-                        animateCounter(counter, target);
-                    });
-                }
+const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const targetValue = parseFloat(entry.target.dataset.target);
+            if (!isNaN(targetValue)) {
+                animateCounter(entry.target, targetValue);
+            }
+            obs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+// Observe all counters directly
+document.querySelectorAll('.stat-number').forEach(counter => {
+    observer.observe(counter);
+});
                 
                 // Animate skill bars
                 if (entry.target.classList.contains('skills')) {
