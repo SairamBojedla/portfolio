@@ -181,28 +181,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Resume Download Functionality - Fixed
     function downloadResume() {
         // Create a comprehensive resume content
-        const fileUrl = "https://raw.githubusercontent.com/SairamBojedla/portfolio/main/resume.pdf";
-
-    fetch(fileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok " + response.statusText);
-            }
-            return response.blob();
-        })
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "Bojedla_Sai_Ram_Resume.pdf";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-            console.error("Error downloading the resume:", error);
-        });
+        const link = document.createElement('a');
+    link.href = 'resume.pdf'; // Path to your existing PDF
+    link.download = 'Bojedla_Sai_Ram_Resume.pdf';
+    
+        link.download = 'Bojedla_Sai_Ram_Resume.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        
+        showNotification('Resume downloaded successfully!', 'success');
     }
 
     // Download button event listeners - Fixed
@@ -252,51 +241,54 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Animated Counter
-  function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const startTime = performance.now();
-    const needsPlus = element.getAttribute('data-plus') === 'true';
-
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Easing
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        const current = start + (target - start) * easeOutQuart;
-
-        if (target % 1 !== 0) {
-            element.textContent = current.toFixed(2);
-        } else {
-            element.textContent = Math.floor(current);
+    function animateCounter(element, target, duration = 2000) {
+        let start = 0;
+        const startTime = performance.now();
+        
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const current = start + (target - start) * easeOutQuart;
+            
+            // Handle decimal values
+            if (target % 1 !== 0) {
+                element.textContent = current.toFixed(2);
+            } else {
+                element.textContent = Math.floor(current);
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                element.textContent = target;
+            }
         }
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            element.textContent = target + (needsPlus ? '+' : '');
-        }
+        
+        requestAnimationFrame(update);
     }
 
-    requestAnimationFrame(update);
-}
+    // Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const targetValue = parseFloat(entry.target.dataset.target);
-            if (!isNaN(targetValue)) {
-                animateCounter(entry.target, targetValue);
-            }
-            obs.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-// Observe all counters directly
-document.querySelectorAll('.stat-number').forEach(counter => {
-    observer.observe(counter);
-});
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                
+                // Animate counters
+                if (entry.target.classList.contains('hero')) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        const target = parseFloat(counter.getAttribute('data-target'));
+                        animateCounter(counter, target);
+                    });
+                }
                 
                 // Animate skill bars
                 if (entry.target.classList.contains('skills')) {
