@@ -1239,7 +1239,7 @@ body {
 
 .timeline-item:nth-child(odd) .timeline-year::after {
   right: auto;
-  left: -50px; /* CHANGED: Moved closer to prevent overlap */
+  left: -10px; /* CHANGED: Moved closer to prevent overlap */
 }
 
 .timeline-content {
