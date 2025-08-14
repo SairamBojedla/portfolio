@@ -1187,6 +1187,7 @@ body {
   max-width: 800px;
   margin: 0 auto;
   position: relative;
+  padding: 0 20px; /* Add padding to prevent edge overlap */
 }
 
 .timeline::before {
@@ -1204,6 +1205,7 @@ body {
   display: flex;
   margin-bottom: var(--space-32);
   position: relative;
+  align-items: center; /* Center align items */
 }
 
 .timeline-item:nth-child(odd) {
@@ -1217,6 +1219,7 @@ body {
   color: var(--color-primary);
   padding: var(--space-8);
   position: relative;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .timeline-year::after {
@@ -1227,13 +1230,15 @@ body {
   background: var(--color-primary);
   border-radius: 50%;
   top: 50%;
-  right: -58px;
+  right: -62px; /* Moved further from content */
   transform: translateY(-50%);
+  z-index: 2; /* Ensure dot is above timeline line */
+  border: 2px solid var(--color-surface); /* Add border to make dot more visible */
 }
 
 .timeline-item:nth-child(odd) .timeline-year::after {
   right: auto;
-  left: -58px;
+  left: -62px; /* Moved further from content */
 }
 
 .timeline-content {
@@ -1242,23 +1247,29 @@ body {
   padding: var(--space-20);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-card-border);
-  margin: 0 var(--space-24);
+  margin: 0 var(--space-32); /* Increased margin to give more space */
+  position: relative;
+  z-index: 1; /* Ensure content is below dots */
+  min-width: 0; /* Allow content to shrink if needed */
 }
 
 .timeline-content h3 {
   color: var(--color-text);
   margin-bottom: var(--space-8);
+  word-wrap: break-word; /* Prevent long text overflow */
 }
 
 .timeline-content h4 {
   color: var(--color-primary);
   margin-bottom: var(--space-8);
   font-weight: var(--font-weight-medium);
+  word-wrap: break-word; /* Prevent long text overflow */
 }
 
 .timeline-content p {
   color: var(--color-text-secondary);
   margin-bottom: var(--space-8);
+  word-wrap: break-word; /* Prevent long text overflow */
 }
 
 .grade {
@@ -1268,7 +1279,28 @@ body {
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
+  display: inline-block; /* Ensure proper spacing */
 }
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+  .timeline {
+    padding: 0 10px;
+  }
+  
+  .timeline-content {
+    margin: 0 var(--space-24);
+  }
+  
+  .timeline-year::after {
+    right: -58px;
+  }
+  
+  .timeline-item:nth-child(odd) .timeline-year::after {
+    left: -58px;
+  }
+}
+
 
 /* Certifications Section */
 .certifications {
