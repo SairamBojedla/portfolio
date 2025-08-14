@@ -261,15 +261,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
 
-        // Easing function
+        // Easing
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
         const current = start + (target - start) * easeOutQuart;
 
-        // Handle decimal values
         if (target % 1 !== 0) {
-            element.textContent = current.toFixed(2) + (needsPlus ? '+' : '');
+            element.textContent = current.toFixed(2);
         } else {
-            element.textContent = Math.floor(current) + (needsPlus ? '+' : '');
+            element.textContent = Math.floor(current);
         }
 
         if (progress < 1) {
@@ -279,25 +278,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    requestAnimationFrame(update);
+}
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                
-                // Animate counters
-                if (entry.target.classList.contains('hero')) {
-                    const counters = entry.target.querySelectorAll('.stat-number');
-                    counters.forEach(counter => {
-                        const target = parseFloat(counter.getAttribute('data-target'));
-                        animateCounter(counter, target);
-                    });
-                }
+// Intersection Observer
+const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = parseFloat(entry.target.getAttribute('data-target'));
+            animateCounter(entry.target, target);
+            obs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
                 
                 // Animate skill bars
                 if (entry.target.classList.contains('skills')) {
