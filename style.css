@@ -1293,13 +1293,13 @@ body {
     margin: 0 var(--space-32); /* CHANGED: Increased for mobile too */
   }
   
-  .timeline-year::after {
+  /*.timeline-year::after {
     right: -45px; /* CHANGED: Adjusted for mobile */
-  }
+  }*/
   
-  .timeline-item:nth-child(odd) .timeline-year::after {
+ /* .timeline-item:nth-child(odd) .timeline-year::after {
     left: -45px; /* CHANGED: Adjusted for mobile */
-  }
+  }*/
 }
 
 
