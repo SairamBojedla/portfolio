@@ -1238,8 +1238,8 @@ body {
 }
 
 .timeline-item:nth-child(odd) .timeline-year::after {
-  right: 30;
-  left: -10; /* CHANGED: Moved closer to prevent overlap */
+  right: -30;
+  left: 10; /* CHANGED: Moved closer to prevent overlap */
 }
 
 .timeline-content {
